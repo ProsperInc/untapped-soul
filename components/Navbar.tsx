@@ -13,10 +13,16 @@ const navLinks = [
   { label: "Contact", href: "/contact" },
 ];
 
+// Pages whose hero section has a dark (abyss) background —
+// the navbar needs white text when unscrolled on these routes.
+const darkHeroRoutes = ["/work-with-me"];
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+
+  const isDarkHero = darkHeroRoutes.includes(pathname) && !scrolled;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -42,21 +48,25 @@ export default function Navbar() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group">
               <div className="flex items-center gap-2.5">
-                {/* Logo mark - SVG placeholder matching brand */}
+                {/* Logo mark — strokes adapt to dark/light hero */}
                 <div className="relative w-9 h-9">
                   <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-                    <circle cx="18" cy="18" r="17" stroke="#22848E" strokeWidth="1.5" />
-                    <path d="M18 8C18 8 11 13 11 20C11 24.4 14.1 28 18 28C21.9 28 25 24.4 25 20C25 13 18 8 18 8Z" fill="#22848E" opacity="0.15" />
-                    <path d="M18 8C18 8 11 13 11 20C11 24.4 14.1 28 18 28" stroke="#22848E" strokeWidth="1.5" strokeLinecap="round" />
+                    <circle cx="18" cy="18" r="17" stroke={isDarkHero ? "#6ED1B4" : "#22848E"} strokeWidth="1.5" />
+                    <path d="M18 8C18 8 11 13 11 20C11 24.4 14.1 28 18 28C21.9 28 25 24.4 25 20C25 13 18 8 18 8Z" fill={isDarkHero ? "#6ED1B4" : "#22848E"} opacity="0.15" />
+                    <path d="M18 8C18 8 11 13 11 20C11 24.4 14.1 28 18 28" stroke={isDarkHero ? "#9DE0D0" : "#22848E"} strokeWidth="1.5" strokeLinecap="round" />
                     <path d="M18 8C18 8 25 13 25 20C25 24.4 21.9 28 18 28" stroke="#6ED1B4" strokeWidth="1.5" strokeLinecap="round" />
-                    <circle cx="18" cy="18" r="3" fill="#22848E" />
+                    <circle cx="18" cy="18" r="3" fill={isDarkHero ? "#6ED1B4" : "#22848E"} />
                   </svg>
                 </div>
                 <div className="flex flex-col leading-tight">
-                  <span className="font-display font-semibold text-teal-abyss text-base tracking-tight group-hover:text-teal-deep transition-colors">
+                  <span className={`font-display font-semibold text-base tracking-tight transition-colors duration-300 ${
+                    isDarkHero ? "text-white group-hover:text-teal-mint" : "text-teal-abyss group-hover:text-teal-deep"
+                  }`}>
                     Untapped
                   </span>
-                  <span className="font-display text-teal-deep text-[11px] tracking-[0.18em] uppercase font-medium">
+                  <span className={`font-display text-[11px] tracking-[0.18em] uppercase font-medium transition-colors duration-300 ${
+                    isDarkHero ? "text-teal-mint" : "text-teal-deep"
+                  }`}>
                     Soul
                   </span>
                 </div>
@@ -71,8 +81,10 @@ export default function Navbar() {
                   href={link.href}
                   className={`nav-link font-body text-sm font-medium tracking-wide transition-colors duration-200 ${
                     pathname === link.href
-                      ? "text-teal-deep"
-                      : "text-teal-abyss/70 hover:text-teal-deep"
+                      ? isDarkHero ? "text-teal-mint" : "text-teal-deep"
+                      : isDarkHero
+                        ? "text-white/80 hover:text-white"
+                        : "text-teal-abyss/70 hover:text-teal-deep"
                   }`}
                 >
                   {link.label}
@@ -84,7 +96,11 @@ export default function Navbar() {
             <div className="hidden md:flex items-center">
               <Link
                 href="/contact"
-                className="px-5 py-2.5 bg-teal-deep text-white text-sm font-medium rounded-xl hover:bg-teal-lagoon transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5"
+                className={`px-5 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 ${
+                  isDarkHero
+                    ? "bg-teal-mint text-teal-abyss hover:bg-teal-seafoam"
+                    : "bg-teal-deep text-white hover:bg-teal-lagoon"
+                }`}
               >
                 Book a Session
               </Link>
@@ -93,7 +109,11 @@ export default function Navbar() {
             {/* Mobile menu toggle */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="md:hidden p-2 rounded-lg text-teal-abyss hover:bg-teal-mist transition-colors"
+              className={`md:hidden p-2 rounded-lg transition-colors ${
+                isDarkHero
+                  ? "text-white hover:bg-white/10"
+                  : "text-teal-abyss hover:bg-teal-mist"
+              }`}
               aria-label="Toggle menu"
             >
               {menuOpen ? <X size={22} /> : <Menu size={22} />}
