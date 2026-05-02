@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --teal-deep: #22848E;
+  --teal-mint: #6ED1B4;
+  --teal-lagoon: #3AA8B4;
+  --teal-abyss: #0D3A3F;
+  --teal-seafoam: #9DE0D0;
+  --teal-mist: #E8F7F5;
+  --cloud: #F5F5F5;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  background-color: #ffffff;
+  color: #0D3A3F;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Reveal animations ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+
+/* ── Gradient mesh background ── */
+.mesh-bg {
+  background-color: #E8F7F5;
+  background-image:
+    radial-gradient(at 20% 20%, rgba(110, 209, 180, 0.35) 0px, transparent 50%),
+    radial-gradient(at 80% 10%, rgba(34, 132, 142, 0.20) 0px, transparent 50%),
+    radial-gradient(at 60% 80%, rgba(157, 224, 208, 0.25) 0px, transparent 50%);
+}
+
+.abyss-mesh {
+  background-color: #0D3A3F;
+  background-image:
+    radial-gradient(at 10% 50%, rgba(34, 132, 142, 0.40) 0px, transparent 50%),
+    radial-gradient(at 90% 20%, rgba(110, 209, 180, 0.15) 0px, transparent 50%);
+}
+
+/* ── Grain overlay ── */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Horizontal divider with teal accent ── */
+.accent-divider {
+  height: 2px;
+  width: 48px;
+  background: linear-gradient(90deg, #22848E, #6ED1B4);
+  border-radius: 999px;
+}
+
+/* ── Animated underline for links ── */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1.5px;
+  background: #22848E;
+  transition: width 0.3s ease;
+}
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ── Card hover lift ── */
+.card-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(13, 58, 63, 0.14);
+}
+
+/* ── Pill badge ── */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #F5F5F5; }
+::-webkit-scrollbar-thumb { background: #9DE0D0; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #22848E; }
